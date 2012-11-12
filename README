@@ -1,0 +1,11 @@
+FUSE (Filesystem in user space) - http://fuse.sf.net - allows
+to write filesystem code in userspace. This package provides 
+bindings for libfuse, userspace library implementing the fuse
+protocol.
+
+fuse-test.lisp is a minimal usage example. It mounts an FS at
+/tmp/test. It contains many-files (a directory with many 
+symlinks named by consequtive numbers), same-name (no entries
+in ls; you can cat a file -it will contain its name) and
+symlinks (no entries in ls - every name exists as a symlink
+to the same name under /).

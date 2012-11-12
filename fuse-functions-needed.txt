@@ -1,0 +1,7 @@
+Functions needed for a working filesystem
+
+getattr  : if anything is done 
+readdir  : if anything is done 
+readlink : if any symlinks are reported via stat 
+open     : if plain files are reported via stat
+read     : if any files can be opened
