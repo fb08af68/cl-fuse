@@ -70,7 +70,7 @@
 
 (defcfun "fuse_new_proxy" :pointer
   (ch :pointer)
-  (args :int)
+  (args :pointer)
   (op :pointer)
   (op_size size)
   (user_data :pointer))
@@ -179,7 +179,7 @@
               )
         (setf data-fuse 
               (fuse-new-proxy chan-fuse 
-                               (pointer-address args-fuse)
+                               args-fuse
                                operation-list 
                                (foreign-type-size 'fuse-ops)
                                (null-pointer)
