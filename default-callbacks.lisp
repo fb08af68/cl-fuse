@@ -28,6 +28,9 @@
 (defun fuse-wrapper-default-file-writeable-p (path)
   nil)
 
+(defun fuse-wrapper-default-file-executable-p (path)
+  nil)
+
 (defun fuse-wrapper-default-file-create (path mode dev)
   nil)
 

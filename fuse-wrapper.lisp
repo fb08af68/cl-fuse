@@ -27,6 +27,7 @@
 (defvar *fuse-wrapper-file-write*)
 (defvar *fuse-wrapper-file-write-whole*)
 (defvar *fuse-wrapper-file-writeable-p*)
+(defvar *fuse-wrapper-file-executable-p*)
 (defvar *fuse-wrapper-file-create*)
 (defvar *fuse-wrapper-chmod*)
 (defvar *fuse-wrapper-chown*)
@@ -58,6 +59,8 @@
 	 (progn (generic-plain-file content file-size) 
 		(when (fuse-funcall *fuse-wrapper-file-writeable-p* split-path)
 		  (writeable-file content))
+		(when (fuse-funcall *fuse-wrapper-file-executable-p* split-path)
+		  (executable-file content))
 		0))
 	(t (- error-ENOENT))
 	)
@@ -103,6 +106,7 @@
                                 :pointer (null-pointer) 
                                 offset 0)
        (let ((children (fuse-funcall *fuse-wrapper-directory-content* split-path)))
+	    ;(fuse-complain "Obtained children of ~s:~%~s~%" split-path children)
             (loop for i in children do 
 		  (if 
 		    (or
@@ -133,6 +137,7 @@
 			   for x in attrs do
 			   (cond
 			     ((eq x :writeable) (writeable-file stat-data))
+			     ((eq x :executable) (executable-file stat-data))
 			     ((integerp x) (generic-plain-file stat-data x))
 			     )
 			   ))
@@ -481,6 +486,7 @@
   (file-write nil)
   (file-write-whole nil)
   (file-writeable-p 'fuse-wrapper-default-file-writeable-p)
+  (file-executable-p 'fuse-wrapper-default-file-executable-p)
   (file-create 'fuse-wrapper-default-file-create)
   (chmod 'fuse-wrapper-default-chmod)
   (chown 'fuse-wrapper-default-chown)
@@ -508,6 +514,7 @@
    *fuse-wrapper-file-write* file-write
    *fuse-wrapper-file-write-whole* file-write-whole
    *fuse-wrapper-file-writeable-p* file-writeable-p
+   *fuse-wrapper-file-executable-p* file-executable-p
    *fuse-wrapper-file-create* file-create
    *fuse-wrapper-chmod* chmod
    *fuse-wrapper-chown* chown

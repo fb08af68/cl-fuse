@@ -85,13 +85,12 @@
     ,name ,type ((,path :string) ,@args)               
     (if (stringp ,path)
         (let*
-         (
-          (,split-path (cdr (cl-utilities:split-sequence #\/ ,path)))
-          )
-         ,@body
-         )
-        (- error-ENOENT))
-    )))
+         ((,split-path 
+	    (if (equal ,path "/") nil 
+	      (cdr (cl-utilities:split-sequence #\/ ,path)))))
+	 ;(fuse-complain "FUSE path callback ~a called with path ~s split as ~s~%" ',name ,path ,split-path)
+         ,@body)
+        (- error-ENOENT)))))
 
 (defun fuse-funcall (f &rest args)
   (when f (apply f args)))

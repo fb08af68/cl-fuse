@@ -36,6 +36,15 @@
     (foreign-slot-value content 'stat-data :mode) 
     )))
 
+(defun executable-file (content)
+  (setf
+   (foreign-slot-value content 'stat-data :mode) 
+   (boole 
+    boole-ior
+    #o100
+    (foreign-slot-value content 'stat-data :mode) 
+    )))
+
 (defun generic-directory (content)
   (generic-file content)
   (setf
