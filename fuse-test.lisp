@@ -17,6 +17,7 @@
 
 (defun is-directory (split-path)
   (or
+   (null split-path)
    (equalp (car split-path) "")
    (and
     (or
@@ -38,7 +39,7 @@
 
 (defun directory-content (split-path)
   (cond 
-   ((equalp "" (car split-path)) 
+   ((or (null split-path) (equalp "" (car split-path)))
     '("symlinks" "same-name" "many-files"))
    ((and
      (equalp "many-files" (car split-path))
