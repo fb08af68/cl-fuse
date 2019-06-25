@@ -81,16 +81,17 @@
          (path (find-name "PATH" body))
          (split-path (find-name "SPLIT-PATH" body))
          )
-  `(fuse-callback 
-    ,name ,type ((,path :string) ,@args)               
-    (if (stringp ,path)
-        (let*
-         ((,split-path 
-	    (if (equal ,path "/") nil 
-	      (cdr (cl-utilities:split-sequence #\/ ,path)))))
-	 ;(fuse-complain "FUSE path callback ~a called with path ~s split as ~s~%" ',name ,path ,split-path)
-         ,@body)
-        (- error-ENOENT)))))
+    `(fuse-callback 
+       ,name ,type ((,path :pointer) ,@args)               
+       (let* ((,path (ignore-errors (cffi:foreign-string-to-lisp ,path))))
+         (if (stringp ,path)
+           (let*
+             ((,split-path 
+                (if (equal ,path "/") nil 
+                  (cdr (cl-utilities:split-sequence #\/ ,path)))))
+             ;(fuse-complain "FUSE path callback ~a called with path ~s split as ~s~%" ',name ,path ,split-path)
+             ,@body)
+           (- error-ENOENT))))))
 
 (defun fuse-funcall (f &rest args)
   (when f (apply f args)))
