@@ -37,7 +37,7 @@
 (defun fuse-wrapper-default-chmod (path mode)
   0)
 
-(defun fuse-wrapper-default-chown (path mode)
+(defun fuse-wrapper-default-chown (path uid gid)
   0)
 
 (defun fuse-wrapper-default-truncate (path offset)
