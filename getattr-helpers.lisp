@@ -61,3 +61,11 @@
         (logior mode-regular #o0444))
   (setf (foreign-slot-value content 'stat-data :size) size))
 
+(defun set-file-times (content &key mtime atime ctime)
+  (setf mtime (or mtime 0))
+  (setf atime (or atime mtime)
+        ctime (or ctime mtime))
+  (setf 
+    (foreign-slot-value content 'stat-data :modification-time) mtime
+    (foreign-slot-value content 'stat-data :access-time) atime
+    (foreign-slot-value content 'stat-data :change-time) ctime))

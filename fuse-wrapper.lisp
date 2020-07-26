@@ -28,6 +28,7 @@
 (defvar *fuse-wrapper-file-write-whole*)
 (defvar *fuse-wrapper-file-writeable-p*)
 (defvar *fuse-wrapper-file-executable-p*)
+(defvar *fuse-wrapper-file-times*)
 (defvar *fuse-wrapper-file-create*)
 (defvar *fuse-wrapper-chmod*)
 (defvar *fuse-wrapper-chown*)
@@ -64,6 +65,9 @@
 		0))
 	(t (- error-ENOENT))
 	)
+      (multiple-value-bind (mtime atime ctime)
+                           (fuse-funcall *fuse-wrapper-file-times* split-path)
+        (set-file-times content :mtime mtime :atime atime :ctime ctime))
     ;(fuse-complain "Leaving getattr on ~s" split-path)
       )
     ))
@@ -483,6 +487,7 @@
   (file-release 'fuse-wrapper-default-file-release)
   (file-read 'fuse-wrapper-default-file-read)
   (file-size 'fuse-wrapper-default-file-size)
+  (file-times nil)
   (file-write nil)
   (file-write-whole nil)
   (file-writeable-p 'fuse-wrapper-default-file-writeable-p)
@@ -515,6 +520,7 @@
    *fuse-wrapper-file-write-whole* file-write-whole
    *fuse-wrapper-file-writeable-p* file-writeable-p
    *fuse-wrapper-file-executable-p* file-executable-p
+   *fuse-wrapper-file-times* file-times
    *fuse-wrapper-file-create* file-create
    *fuse-wrapper-chmod* chmod
    *fuse-wrapper-chown* chown

@@ -38,6 +38,7 @@
    #:fuse-run
    #:fuse-complain
    #:fuse-callback
+   #:fuse-path-callback
 
    #:error-EPERM   
    #:error-ENOENT  

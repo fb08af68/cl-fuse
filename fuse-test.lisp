@@ -64,6 +64,9 @@
          )
         `(:offset 0 ,name)))
 
+(defun file-times (split-path)
+  (values 456 789 123))
+
 (defun fuse-test ()
   (fuse-run '("none" "/tmp/test" "-d"
                      )
@@ -72,6 +75,7 @@
             :symlink-target 'symlink-target
             :file-size 'file-size
             :file-read 'file-read
+            :file-times 'file-times
             ))
 
 (defun fuse-test-par ()
@@ -82,6 +86,7 @@
             :symlink-target 'symlink-target
             :file-size 'file-size
             :file-read 'file-read
+            :file-times 'file-times
             :call-manager 
             (lambda (f &rest x) 
                     (declare (ignore x)) 
