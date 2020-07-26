@@ -364,7 +364,7 @@
    ((functionp *fuse-wrapper-rename*)
     (let*
      (
-      (res (funcall *fuse-wrapper-rename* split-path))
+      (res (funcall *fuse-wrapper-rename* split-path target))
       )
      (cond
       ((eq res nil) (- error-EACCES))
